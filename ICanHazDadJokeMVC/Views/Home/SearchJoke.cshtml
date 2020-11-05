@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Search Result Page";
+}
+@model ICanHazDadJokeListModel
+
+@if (Model.Results.Count() <= 1)
+{
+    <div class="card">
+        <div class="card-header">
+            Search Result
+        </div>
+        <div class="card-body">
+            @if (Model.Results.Count() > 0)
+            {
+                foreach (var item in Model.Results)
+                {
+                    <blockquote class="blockquote mb-0">
+                        <p>@item.Joke</p>
+                    </blockquote>
+                }
+            }
+            else
+            {
+                <p>Not joking! there is no joke containing the word <strong>@Model.SearchTerm</strong></p>
+            }
+        </div>
+    </div>
+}
+else
+{
+    if (Model.ShortJokes.Count() > 0)
+    {
+        <div class="card">
+            <div class="card-header">
+                Short Jokes (less than @Model.ShortJokeLimit words)
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.ShortJokes)
+                {
+                    <blockquote class="blockquote mb-0">
+                        <p>@item.Joke</p>
+                    </blockquote>
+                }
+            </div>
+        </div>
+    }
+    <br />
+    if (Model.MediumJokes.Count() > 0)
+    {
+        <div class="card">
+            <div class="card-header">
+                Medium Jokes (less than @Model.MediumJokeLimit words)
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.MediumJokes)
+                {
+                    <blockquote class="blockquote mb-0">
+                        <p>@item.Joke</p>
+                    </blockquote>
+                }
+            </div>
+        </div>
+    }
+    <br />
+    if (Model.LongJokes.Count() > 0)
+    {
+        <div class="card">
+            <div class="card-header">
+                Long Jokes (more than @Model.MediumJokeLimit words)
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.LongJokes)
+                {
+                    <blockquote class="blockquote mb-0">
+                        <p>@item.Joke</p>
+                    </blockquote>
+                }
+            </div>
+        </div>
+    }
+}

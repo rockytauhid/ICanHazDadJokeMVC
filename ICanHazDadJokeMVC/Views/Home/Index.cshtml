@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model ICanHazDadJokeModel
+<div class="card">
+    <div class="card-header">
+        Random Joke
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>@Model.Joke</p>
+        </blockquote>
+        <a href="#" class="btn btn-primary">Gimme another one!</a>
+    </div>
+</div>
+
