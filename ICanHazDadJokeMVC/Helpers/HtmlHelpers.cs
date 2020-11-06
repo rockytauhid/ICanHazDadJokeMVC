@@ -1,10 +1,4 @@
 ﻿using Microsoft.AspNetCore.Html;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 
 namespace ICanHazDadJokeMVC.Helpers
 {
@@ -15,10 +9,12 @@ namespace ICanHazDadJokeMVC.Helpers
             HtmlString result = new HtmlString(sentence);
             if (!string.IsNullOrEmpty(sentence))
             {
-                if (sentence.Contains(word))
+                if (!string.IsNullOrEmpty(word) && sentence.ToLower().Contains(word.ToLower()))
                 {
-                    string replaced = sentence.Replace(word, string.Format("<strong>{0}</strong>", word));
-                    result = new HtmlString(replaced);
+                    int beginPos = sentence.ToLower().IndexOf(word.ToLower());
+                    int endPos = beginPos + word.Length;
+                    string formatted = sentence.Insert(endPos, "</strong>").Insert(beginPos, "<strong>");
+                    result = new HtmlString(formatted);
                 }
             }
             return result;

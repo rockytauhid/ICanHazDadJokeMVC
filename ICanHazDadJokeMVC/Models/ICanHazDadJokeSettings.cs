@@ -19,22 +19,5 @@ namespace ICanHazDadJokeMVC.Models
         /// ICanHazDadJoke API URL
         /// </summary>
         public string BaseURL { get; } = @"https://icanhazdadjoke.com";
-
-        ///// <summary>
-        ///// Short joke which is less 10 words (requirement)
-        ///// </summary>
-        //public int ShortJokeLimit { get; } = 10;
-
-        ///// <summary>
-        ///// Medium joke which is less 20 words (requirement)
-        ///// </summary>
-        //public int MediumJokeLimit { get; } = 20;
-
-        /// <summary>
-        /// Maximum number of jokes retrieved set to 30 (requirement)
-        /// </summary>
-        public string JokesRetrievedLimit { get; } = @"30";
-
-        //public string SearchTerm { get; set; }
     }
 }

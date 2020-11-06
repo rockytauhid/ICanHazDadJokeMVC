@@ -33,7 +33,9 @@ namespace ICanHazDadJokeMVC.Controllers
         {
             ICanHazDadJokeListModel models = new ICanHazDadJokeListModel();
             ICanHazDadJokeService service = new ICanHazDadJokeService();
-            var resMsg = await service.SearchJoke(searchTerm);
+            if (searchTerm == null)
+                searchTerm = string.Empty;
+            var resMsg = await service.SearchJoke(searchTerm, models.JokesRetrievedLimit);
             if (resMsg.IsSuccessStatusCode)
             {
                 var response = resMsg.Content.ReadAsStringAsync().Result;

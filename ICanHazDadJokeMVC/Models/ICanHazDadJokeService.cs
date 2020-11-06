@@ -39,7 +39,7 @@ namespace ICanHazDadJokeMVC.Models
         /// </summary>
         /// <param name="vSearchTerm"></param>
         /// <returns>Http response message</returns>
-        public async Task<HttpResponseMessage> SearchJoke(string vSearchTerm)
+        public async Task<HttpResponseMessage> SearchJoke(string vSearchTerm, int vJokesLimit)
         {
             using (var client = new HttpClient())
             {
@@ -48,10 +48,10 @@ namespace ICanHazDadJokeMVC.Models
                 {
                     client.DefaultRequestHeaders.Add(obj.Key, obj.Value);
                 }
-                var builder = new UriBuilder(ICanHazDadJokeSettings.BaseURL + "/search");
+                UriBuilder builder = new UriBuilder(ICanHazDadJokeSettings.BaseURL + "/search");
                 var query = HttpUtility.ParseQueryString(builder.Query);
                 query.Add("term", vSearchTerm);
-                query.Add("limit", ICanHazDadJokeSettings.JokesRetrievedLimit);
+                query.Add("limit", vJokesLimit.ToString());
                 builder.Query = query.ToString();
                 string url = builder.ToString();
 

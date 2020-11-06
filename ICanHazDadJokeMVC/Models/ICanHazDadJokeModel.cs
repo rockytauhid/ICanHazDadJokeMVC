@@ -45,6 +45,11 @@ namespace ICanHazDadJokeMVC.Models
         public int MediumJokeLimit { get; } = 20;
 
         /// <summary>
+        /// Maximum number of jokes retrieved set to 30 (requirement)
+        /// </summary>
+        public int JokesRetrievedLimit { get; } = 30;
+
+        /// <summary>
         /// Search term
         /// </summary>
         public string SearchTerm { get; set; }
@@ -85,7 +90,7 @@ namespace ICanHazDadJokeMVC.Models
             {
                 int count = model.Joke.Split(' ').Length;
 
-                if (count < ShortJokeLimit)
+                if (count <= ShortJokeLimit)
                     ShortJokes.Add(model);
                 else if (count > ShortJokeLimit && count < MediumJokeLimit)
                     MediumJokes.Add(model);

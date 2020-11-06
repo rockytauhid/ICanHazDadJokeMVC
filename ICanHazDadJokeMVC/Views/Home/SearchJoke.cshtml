@@ -4,7 +4,14 @@
 @model ICanHazDadJokeListModel
 @using ICanHazDadJokeMVC.Helpers
 
-<h2>Joke(s) containing the word "<strong>@Model.SearchTerm</strong>"</h2>
+@if (!string.IsNullOrEmpty(Model.SearchTerm))
+{
+    <h2>Joke(s) containing the word "<strong>@Model.SearchTerm</strong>"</h2>
+}
+else
+{
+    <h2>First @Model.JokesRetrievedLimit Jokes</h2>
+}
 <br />
 @if (Model.Results.Count() <= 1)
 {
@@ -35,7 +42,7 @@ else
     {
         <div class="card">
             <div class="card-header">
-                Short Jokes (less than @Model.ShortJokeLimit words)
+                Short Jokes (&lt; @Model.ShortJokeLimit words)
             </div>
             <div class="card-body">
                 @foreach (var item in Model.ShortJokes)
@@ -52,7 +59,7 @@ else
     {
         <div class="card">
             <div class="card-header">
-                Medium Jokes (less than @Model.MediumJokeLimit words)
+                Medium Jokes (&gt; @Model.ShortJokeLimit & &lt; @Model.MediumJokeLimit words)
             </div>
             <div class="card-body">
                 @foreach (var item in Model.MediumJokes)
@@ -69,7 +76,7 @@ else
     {
         <div class="card">
             <div class="card-header">
-                Long Jokes (more than @Model.MediumJokeLimit words)
+                Long Jokes (&gt; @Model.MediumJokeLimit words)
             </div>
             <div class="card-body">
                 @foreach (var item in Model.LongJokes)
