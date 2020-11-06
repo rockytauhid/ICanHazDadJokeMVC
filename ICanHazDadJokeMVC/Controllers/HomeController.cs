@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ICanHazDadJokeMVC.Models;
+using Newtonsoft.Json;
 
 namespace ICanHazDadJokeMVC.Controllers
 {
@@ -18,23 +19,31 @@ namespace ICanHazDadJokeMVC.Controllers
         public async Task<IActionResult> Index()
         {
             ICanHazDadJokeModel model = new ICanHazDadJokeModel();
-
             ICanHazDadJokeService service = new ICanHazDadJokeService();
-            model = await service.RandomJoke();
+            var resMsg = await service.RandomJoke();
+            if (resMsg.IsSuccessStatusCode)
+            {
+                var response = resMsg.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<ICanHazDadJokeModel>(response);
+            }
             return View(model);
         }
 
         public async Task<IActionResult> SearchJoke(string searchTerm)
         {
-            ICanHazDadJokeListModel model = new ICanHazDadJokeListModel();
-
+            ICanHazDadJokeListModel models = new ICanHazDadJokeListModel();
             ICanHazDadJokeService service = new ICanHazDadJokeService();
-            model = await service.SearchJoke(searchTerm);
-            model.SearchTerm = searchTerm;
-            return View(model);
+            var resMsg = await service.SearchJoke(searchTerm);
+            if (resMsg.IsSuccessStatusCode)
+            {
+                var response = resMsg.Content.ReadAsStringAsync().Result;
+                models = JsonConvert.DeserializeObject<ICanHazDadJokeListModel>(response);
+            }
+            models.SearchTerm = searchTerm;
+            return View(models);
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

@@ -24,12 +24,9 @@ namespace ICanHazDadJokeMVC.Models
     {
         public ICanHazDadJokeListModel()
         {
-            Results = new List<ICanHazDadJokeModel>();
             ShortJokes = new List<ICanHazDadJokeModel>();
             MediumJokes = new List<ICanHazDadJokeModel>();
             LongJokes = new List<ICanHazDadJokeModel>();
-            if (Results.Count > 1)
-                GroupByLength(Results);
         }
 
         /// <summary>
@@ -52,59 +49,49 @@ namespace ICanHazDadJokeMVC.Models
         /// </summary>
         public string SearchTerm { get; set; }
 
+        private IList<ICanHazDadJokeModel> _Results;
         /// <summary>
         /// List of Jokes
         /// </summary>
-        public IList<ICanHazDadJokeModel> Results { get; set; }
+        public IList<ICanHazDadJokeModel> Results 
+        {
+            get { return _Results; }
+            set
+            {
+                _Results = value;
+                if (_Results.Count > 1)
+                    GroupByLength(_Results);
+            } 
+        }
 
         /// <summary>
         /// List of short length jokes
         /// </summary>
-        public IList<ICanHazDadJokeModel> ShortJokes { get; set; }
+        public IList<ICanHazDadJokeModel> ShortJokes { get; }
 
         /// <summary>
         /// List of medium length jokes
         /// </summary>
-        public IList<ICanHazDadJokeModel> MediumJokes { get; set; }
+        public IList<ICanHazDadJokeModel> MediumJokes { get; }
 
         /// <summary>
         /// List of long length jokes
         /// </summary>
-        public IList<ICanHazDadJokeModel> LongJokes { get; set; }
+        public IList<ICanHazDadJokeModel> LongJokes { get; }
 
         private void GroupByLength(IList<ICanHazDadJokeModel> vModelList)
         {
             foreach (ICanHazDadJokeModel model in vModelList)
             {
-                int wordCount = WordCount(model.Joke);
+                int count = model.Joke.Split(' ').Length;
 
-                if (wordCount < ShortJokeLimit)
-                {
+                if (count < ShortJokeLimit)
                     ShortJokes.Add(model);
-                }
-                else if (wordCount > ShortJokeLimit && wordCount < MediumJokeLimit)
-                {
+                else if (count > ShortJokeLimit && count < MediumJokeLimit)
                     MediumJokes.Add(model);
-                }
                 else
-                {
                     LongJokes.Add(model);
-                }
             }
-        }
-
-        private int WordCount(string vJokes)
-        {
-            int result = 1;
-            foreach (char i in vJokes)
-            {
-                foreach (char j in vJokes)
-                {
-                    if (char.IsWhiteSpace(i))
-                        result++;
-                }
-            }
-            return result;
         }
     }
 }
